@@ -1,0 +1,34 @@
+name: 'InfraDeployment-VMNetwork'
+
+trigger:
+  batch: true
+  branches: 
+    include: 
+    - main
+    exclude: 
+    - master
+pool:Default
+
+steps:
+- task: TerraformInstaller@1
+  inputs:
+    terraformVersion: 'latest'
+- task: TerraformTaskV4@4
+  inputs:
+    provider: 'azurerm'
+    command: 'init'
+    backendServiceArm: 'Free Trial(58abb61b-3bc7-4bc4-ae4e-6534137db262)'
+    backendAzureRmResourceGroupName: 'rg-devops'
+    backendAzureRmStorageAccountName: 'storageaccountdevops'
+    backendAzureRmContainerName: 'container-devops'
+    backendAzureRmKey: 'dev.terraform.tfstate'
+- task: TerraformTaskV4@4
+  inputs:
+    provider: 'azurerm'
+    command: 'plan'
+    environmentServiceNameAzureRM: 'Free Trial(58abb61b-3bc7-4bc4-ae4e-6534137db262)'
+- task: TerraformTaskV4@4
+  inputs:
+    provider: 'azurerm'
+    command: 'apply'
+    environmentServiceNameAzureRM: 'Free Trial(58abb61b-3bc7-4bc4-ae4e-6534137db262)'
