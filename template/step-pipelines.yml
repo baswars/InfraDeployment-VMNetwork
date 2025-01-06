@@ -1,0 +1,11 @@
+steps:
+- task: TerraformTaskV4@4
+  displayName: TerraformInitTemplate
+  inputs:
+    provider: 'azurerm'
+    command: 'init'
+    backendServiceArm: 'devops-azurerc'
+    backendAzureRmResourceGroupName: 'DoNotDelete-pipeline'
+    backendAzureRmStorageAccountName: 'donotdeletepipeline'
+    backendAzureRmContainerName: 'donotdeletecontianer'
+    backendAzureRmKey: 'dev.terraform.tfstate'
